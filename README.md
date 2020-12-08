@@ -1,4 +1,4 @@
-# Repository for doing some time series feature engineering with the INGV Volcano prediction competition data:
+# Time series feature engineering with INGV Volcano prediction competition data:
 https://www.kaggle.com/c/predict-volcanic-eruptions-ingv-oe
 
 The goal of the competition is the build a regression model that can accurately
