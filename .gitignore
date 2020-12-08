@@ -1,0 +1,12 @@
+.idea/**/*.*
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+cufflinks/**/*.*
+data/**/*.*
+data/*.*
+.github/
+lambdb/*/**
+*.pyc
+workflow/*/**
+workflow/*.*
+workflow/*
