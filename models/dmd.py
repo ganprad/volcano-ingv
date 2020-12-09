@@ -93,7 +93,7 @@ def build_mrhankel(data, embedding_dim, wavelet, layer_stack, delay_size, max_wi
             padding = max_window_size - hankel_layer.size(-1)
             hankel_layer = nn.functional.pad(hankel_layer, pad=[0, padding])
 
-    H_stack.append(hankel_layer.T)
+        H_stack.append(hankel_layer.T)
     return torch.cat(H_stack, dim=-1)
 
 
