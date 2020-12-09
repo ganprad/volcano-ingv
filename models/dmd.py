@@ -88,8 +88,8 @@ def build_mrhankel(data, embedding_dim, wavelet, layer_stack, delay_size, max_wi
             padding = max_window_size - hankel_layer.size(-1)
             hankel_layer = nn.functional.pad(hankel_layer, pad=[0, padding])
         else:
-            hankel_layer = hankel_layer.reshape(ws * n_windows,
-                                                wavelet_scales.shape[0] * embedding_dim).T
+            hankel_layer = hankel_layer.reshape(ws * wavelet_scales.shape[0],
+                                                n_windows * embedding_dim).T
             padding = max_window_size - hankel_layer.size(-1)
             hankel_layer = nn.functional.pad(hankel_layer, pad=[0, padding])
 
@@ -134,11 +134,10 @@ class DMD(nn.Module):
             self.U, s, v = torch.svd(h0)
             u_pinv = torch.pinverse(self.U)
             s_inv = torch.diag(torch.reciprocal(s))
-            self.A_tilde = torch.einsum('ij,jl,lq,qr', u_pinv, h1, s_inv,  v.T)
+            self.A_tilde = torch.einsum('ij,jl,lq,qr', u_pinv, h1, v, s_inv)
             self.eigenvalues, w = torch.eig(self.A_tilde, eigenvectors=True)
             phi = torch.einsum('ij,jk,kl,ls', h1, v, s_inv, w)
             alpha0 = torch.einsum('ij,j', s_inv, v[1, :]).T
             alpha0_pinv = torch.pinverse(alpha0.reshape(-1, 1))
             amplitudes = torch.einsum('ij,jk', w, self.eigenvalues).T * alpha0_pinv
         return phi, amplitudes, v
-
